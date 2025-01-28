@@ -1,65 +1,60 @@
-# C++ Project Template
+LeetCode Style Question: Thread-Safe Queue and Singleton Implementation
 
-This repository serves as a template for new projects. Click the `Use this template` button above to create a new repository based on this template for your # Project Template
+Problem Description
 
-This repository serves as a template for new projects. Click the `Use this template` button above to create a new repository based on this template.
+Design and implement two classes: a ThreadSafeQueue and a Singleton.
 
-## Features
+1. ThreadSafeQueue
 
-- CMake
-- Ninja
-- VSCode debugging configured
+Implement a thread-safe queue that supports multiple producers and multiple consumers. The queue should allow the following operations:
+	1.	Push (Enqueue):
+	•	Add an element to the end of the queue.
+	•	If there are consumers waiting for elements, notify them.
+	2.	Pop (Dequeue):
+	•	Remove and return the element at the front of the queue.
+	•	If the queue is empty, block the calling thread until an element becomes available.
 
-## Getting Started
+You should use a condition variable to manage synchronization between threads.
 
-1. Clone your new repository:
-    ```bash
-    git clone https://github.com/yourusername/your-new-repo.git
-    cd your-new-repo
-    ```
+2. Singleton
 
-2. Install dependencies:
-    ```bash
-    # Example for a Node.js project
-    npm install
-    ```
+Implement a Singleton class that:
+	1.	Ensures only one instance of the class exists throughout the program.
+	2.	Is thread-safe when accessed in a multi-threaded environment.
 
-3. Run the project:
-    ```bash
-    # Example for a Node.js project
-    npm start
-    ```
+Class Definitions
+	1.	ThreadSafeQueue Class
+	•	ThreadSafeQueue():
+	•	Initializes the queue.
+	•	void push(int value):
+	•	Adds a value to the queue.
+	•	int pop():
+	•	Removes and returns the value at the front of the queue. Blocks if the queue is empty.
+	•	Constraints:
+	•	The queue must support concurrent access by multiple producers and consumers.
+	2.	Singleton Class
+	•	static Singleton* getInstance():
+	•	Returns the single instance of the Singleton class.
+	•	Constraints:
+	•	The getInstance method must be thread-safe and ensure only one instance exists.
 
-## Contributing
+Example
 
-Contributions are welcome! Please see the [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+Input:
+	•	A ThreadSafeQueue with multiple threads pushing and popping values.
+	•	A Singleton instance is accessed from multiple threads.
 
-## Features
+Output:
 
-- Feature 1
-- Feature 2
-- Feature 3
+ThreadSafeQueue operations:
+push(10)
+push(20)
+pop() => 10
+pop() => 20
 
-## Getting Started
+Singleton operations:
+Singleton instance accessed from multiple threads: Address = 0x7ffeea112af0
 
-1. Clone your new repository:
-    ```bash
-    git clone https://github.com/yourusername/your-new-repo.git
-    cd your-new-repo
-    ```
-
-2. Install dependencies:
-    ```bash
-    # Example for a Node.js project
-    npm install
-    ```
-
-3. Run the project:
-    ```bash
-    # Example for a Node.js project
-    npm start
-    ```
-
-## Contributing
-
-Contributions are welcome! Please see the [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+Follow-Up
+	1.	How would you modify the ThreadSafeQueue to add a timeout to the pop operation?
+	2.	How can you ensure the Singleton instance is lazily initialized?
