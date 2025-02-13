@@ -60,60 +60,6 @@ public:
 2. Efficient resource usage
 3. Optimal wake-up mechanism for waiting threads
 
-## Implementation Guidelines
-
-### Basic Implementation Example
-
-```cpp
-template<typename T>
-class ThreadSafeQueue {
-private:
-    std::queue<T> queue_;
-    mutable std::mutex mutex_;
-    std::condition_variable not_empty_;
-
-public:
-    void push(const T& value) {
-        std::lock_guard<std::mutex> lock(mutex_);
-        queue_.push(value);
-        not_empty_.notify_one();
-    }
-
-    T pop() {
-        std::unique_lock<std::mutex> lock(mutex_);
-        not_empty_.wait(lock, [this]() { return !queue_.empty(); });
-        T value = queue_.front();
-        queue_.pop();
-        return value;
-    }
-};
-```
-
-## Example Usage
-
-```cpp
-ThreadSafeQueue<int> queue;
-
-// Producer thread
-std::thread producer([]() {
-    for (int i = 0; i < 10; i++) {
-        queue.push(i);
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    }
-});
-
-// Consumer thread
-std::thread consumer([]() {
-    while (true) {
-        int value = queue.pop();
-        std::cout << "Consumed: " << value << std::endl;
-    }
-});
-
-producer.join();
-consumer.join();
-```
-
 ## Best Practices
 
 1. Use RAII for resource management
