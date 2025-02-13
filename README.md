@@ -1,4 +1,4 @@
-# Thread-Safe Queue and Singleton Implementation Challenge
+# Implement a Thread-safe Queue
 
 ## Problem Description
 
